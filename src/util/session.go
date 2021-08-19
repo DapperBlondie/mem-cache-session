@@ -3,7 +3,6 @@ package util
 import (
 	"encoding/json"
 	"github.com/bradfitz/gomemcache/memcache"
-	"github.com/gorilla/sessions"
 	_ "github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"time"
@@ -15,15 +14,11 @@ type UserSession struct {
 	Expire time.Time `json:"expire"`
 }
 
-var Session *sessions.Session = sessions.NewSession(&sessions.CookieStore{
-	Codecs:  nil,
-	Options: nil,
-}, "memcache")
-
 type SessionStore struct {
 	Client *memcache.Client
 }
 
+// CreateSSClient use for creating memcache.Client
 func (c *SessionStore) CreateSSClient(host string) {
 	c.Client = memcache.New(host)
 	return
